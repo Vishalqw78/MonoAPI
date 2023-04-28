@@ -1,31 +1,16 @@
 import {Router} from 'express'
 import {body,validationResult} from 'express-validator'
+import { createPost, deletePost, getCommentOfPost, getOnePost, getPosts, updatePost } from './handlers/product';
 const router = Router()
 
-
-
 // Post Routes
-router.post('/posts', (res,req)=>{
-    
-});
-router.get('/posts', (req,res)=>{
-    res.json({message :'testing'})
-});
-router.get('/posts/:id', (res,req)=>{
-    
-});
-router.put('/posts/:id', (res,req)=>{
-    
-});
-router.delete('/posts/:id', (res,req)=>{
-    
-});
-router.get('/posts', (res,req)=>{
-    
-});
-router.get('/posts/:id/comments', (res,req)=>{
-    
-});
+router.post('/posts', createPost);
+router.get('/posts',getPosts);
+router.get('/posts/:id',getOnePost);
+router.put('/posts/:id',updatePost);
+router.delete('/posts/:id',deletePost );
+
+router.get('/posts/:id/comments', getCommentOfPost);
 
 
 

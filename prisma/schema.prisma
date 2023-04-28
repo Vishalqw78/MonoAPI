@@ -32,6 +32,8 @@ model Post {
   comment   Comment[]
   thumbnail String
   posted    Boolean
+
+  @@unique([id, authorId])
 }
 
 model Comment {
