@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import {body,validationResult} from 'express-validator'
-import { createPost, deletePost, getCommentOfPost, getOnePost, getPosts, updatePost } from './handlers/product';
+import { createPost, deletePost, getCommentOfPost, getOnePost, getPosts, updatePost } from './handlers/post';
+import { createComment, deletecommentbyid, getcommentbyid, updatecommentbyid } from './handlers/comments';
 const router = Router()
 
 // Post Routes
@@ -17,17 +18,9 @@ router.get('/posts/:id/comments', getCommentOfPost);
 
 
 // Comment Routes
-router.post('/posts/:id/comments', (res,req)=>{
-    
-});
-router.get('/comments/:id', (res,req)=>{
-    
-});
-router.put('/comments/:id', (res,req)=>{
-    
-});
-router.delete('/comments/:id', (res,req)=>{
-    
-});
+router.post('/posts/:id/comments', createComment);
+router.get('/comments/:id',getcommentbyid);
+router.put('/comments/:id',updatecommentbyid);
+router.delete('/comments/:id',deletecommentbyid);
 
 export default router
