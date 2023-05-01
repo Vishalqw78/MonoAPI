@@ -42,6 +42,7 @@ export const updatePost =async (req,res)=>{
             title: req.body.title || existingpost.title,
             thumbnail: req.body.thumbnail || existingpost.thumbnail,
             posted: req.body.posted || existingpost.posted,
+            content: req.body.content
         }
     })
     res.json({data: updating})
@@ -50,7 +51,6 @@ export const updatePost =async (req,res)=>{
 export const getCommentOfPost =async (req,res) => {
     const postId = req.params.id;
     const authorId = req.user.id;
-    
     const comment = await prisma.comment.findMany({
         where:{
             postId,

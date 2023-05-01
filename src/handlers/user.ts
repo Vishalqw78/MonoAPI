@@ -1,4 +1,5 @@
 import prisma from "../db";
+import jwt from 'jsonwebtoken'
 import { comparePasswords, createJWT, hashPassword } from "../modules/auth";
 
 export const createNewUser =async (req,res) => {
@@ -74,26 +75,33 @@ export const UpdateUserDetails = async (req,res) => {
     });
     res.json({data : updateUsers})   
 }
-export const DeleteSelf = async (req,res) => {
-    const users = await prisma.user.findUnique({
-        where:{
-            id : req.user.id
-        }
-    });
-    const deletepost = await prisma.post.deleteMany({
-        where:{
-            Author: req.user.id
-        }
+export const deleteSelfUser = async (req, res) => {
+  try {
+    const deleteComments = await prisma.comment.deleteMany({
+      where: {
+        authorId: req.user.id,
+      },
     })
-    const deletecomment = await prisma.comment.deleteMany({
-        where:{
-            author: req.user.id
-        }
+
+    const deletePosts = await prisma.post.deleteMany({
+      where: {
+        authorId: req.user.id,
+      },
     })
-    const DeleteUsers = await prisma.user.delete({
-        where:{
-            id : users.id
-        }
-    });
-    res.json({data : users})   
+
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    const userId = decodedToken.id
+
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    })
+
+    res.sendStatus(204)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Something went wrong' })
+  }
 }
