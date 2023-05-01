@@ -24,7 +24,7 @@ model User {
 model Post {
   id        String    @id @default(uuid())
   title     String
-  content   Content[]
+  content   Json      @default("{\"title\": \" New Post \"}")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Author    User      @relation(fields: [authorId], references: [id])
@@ -45,11 +45,4 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   value     String
-}
-
-model Content {
-  id     String @id @default(uuid())
-  Post   Post   @relation(fields: [postId], references: [id])
-  postId String
-  data   Json
 }
